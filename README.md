@@ -20,13 +20,12 @@ The analysis addresses the following questions:
 
 ## Dataset
 
-The notebook uses the **Trending YouTube Video Statistics** dataset from Kaggle:
+The analysis uses two regional CSV files:
 
-- Dataset: [Trending YouTube Video Statistics](https://www.kaggle.com/datasets/datasnaek/youtube-new)
-- Collection provenance: [Trending YouTube Scraper](https://github.com/DataSnaek/Trending-YouTube-Scraper)
-- Regional files used: `USvideos.csv` and `INvideos.csv`
+- `USvideos.csv` — United States trending-video records
+- `INvideos.csv` — India trending-video records
 
-The notebook combines the two regional files and adds a `region` column to distinguish them.
+Both files are stored in the repository's `data/` directory. The notebook combines the regional files and adds a `region` column to distinguish them.
 
 | Region | Records | Unique videos |
 |---|---:|---:|
@@ -44,13 +43,13 @@ The dataset contains repeated daily observations for videos that remain on the t
 - **Matplotlib** – Charts and plots
 - **Seaborn** – Statistical visualizations
 - **Scikit-learn** – Preprocessing, logistic regression, and model evaluation
-- **Kaggle / Jupyter Notebook** – Notebook execution environment
+- **Jupyter Notebook** – Notebook execution environment
 
 ## Project Workflow
 
 ### 1. Data loading
 
-The notebook searches the Kaggle input directory for `USvideos.csv` and `INvideos.csv`, reads the CSV files using `latin1` encoding, adds a regional identifier, and combines the available data.
+The notebook reads `USvideos.csv` and `INvideos.csv` from the repository's `data/` directory, uses `latin1` encoding, adds a regional identifier, and combines the available data.
 
 ### 2. Data validation and feature engineering
 
@@ -160,7 +159,7 @@ This indicates that the selected metadata contains useful signal for distinguish
 
 ## Repository Structure
 
-A suggested repository layout is:
+The repository is organized as follows:
 
 ```text
 youtube-video-trend-analysis/
@@ -168,10 +167,11 @@ youtube-video-trend-analysis/
 ├── notebooks/
 │   └── what-makes-a-youtube-video-trend.ipynb
 └── data/
-    └── README.md
+    ├── USvideos.csv
+    └── INvideos.csv
 ```
 
-Add the dataset files to `data/` only if you have permission to redistribute them and they are within GitHub's file-size limits. Otherwise, download the dataset from Kaggle using the link above. You can also keep the notebook at the repository root if you prefer a simpler structure.
+Keep both CSV files in the `data/` folder so the notebook can load them from the same relative location. If either file is too large for a regular GitHub upload, use Git Large File Storage (Git LFS) or provide an alternative download location.
 
 ## How to Run
 
@@ -188,9 +188,16 @@ Add the dataset files to `data/` only if you have permission to redistribute the
    pip install numpy pandas matplotlib seaborn scikit-learn jupyter
    ```
 
-3. Download the dataset from [Kaggle](https://www.kaggle.com/datasets/datasnaek/youtube-new).
+3. Make sure `USvideos.csv` and `INvideos.csv` are saved in the repository's `data/` folder.
 
-4. Attach the dataset to your Kaggle notebook, or update the notebook's file-discovery path for your local environment. The notebook expects `USvideos.csv` and `INvideos.csv`.
+4. In the notebook, set the data paths to:
+
+   ```python
+   us_path = "../data/USvideos.csv"
+   in_path = "../data/INvideos.csv"
+   ```
+
+   These relative paths assume the notebook is inside the `notebooks/` folder. If you keep the notebook in the repository root, use `data/USvideos.csv` and `data/INvideos.csv` instead.
 
 5. Launch Jupyter:
 
@@ -198,7 +205,7 @@ Add the dataset files to `data/` only if you have permission to redistribute the
    jupyter notebook
    ```
 
-6. Open and run the notebook.
+6. Open the notebook and run the cells.
 
 ## Project Deliverables
 
@@ -212,6 +219,3 @@ Add the dataset files to `data/` only if you have permission to redistribute the
 ## Project Context
 
 This repository presents a client-style data analytics project, documenting the workflow from dataset preparation and exploratory analysis through model benchmarking and interpretation.
-
-**Original Kaggle notebook:**  
-[What Makes a YouTube Video Trend?](https://www.kaggle.com/code/aviral342/what-makes-a-youtube-video-trend/notebook)
