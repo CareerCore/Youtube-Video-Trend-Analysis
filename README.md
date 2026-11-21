@@ -1,10 +1,6 @@
 # Youtube-Video-Trend-Analysis
 
-This project was undertaken as a client-assigned data analytics project to investigate the factors that contribute to YouTube videos becoming trending. Factors, such as views, likes, comments, video categories, and other video characteristics, may influence trending performance.
-
-What Makes a YouTube Video Trend?
-
-Project Overview
+**Project Overview**
 
 This project was undertaken as a client-assigned data analytics project to investigate the factors that contribute to YouTube videos becoming trending.
 
@@ -12,7 +8,7 @@ The client wanted to understand what makes certain videos more popular than othe
 
 Using data analysis and visualization techniques, this project explores YouTube trending video patterns and extracts meaningful insights that can help content creators and digital marketers make more informed decisions.
 
-🎯 Project Objectives
+**Project Objectives**
 
 The main objectives of this project are:
 
@@ -26,7 +22,7 @@ Investigate patterns and characteristics shared by trending videos.
 
 Present actionable insights through data visualizations.
 
-🛠️ Tools & Technologies
+**🛠️ Tools & Technologies**
 
 The project uses the following technologies (to be verified against the original notebook):
 
@@ -42,7 +38,7 @@ Matplotlib – Data visualization.
 
 Seaborn – Statistical visualization.
 
-📂 Project Workflow
+**📂 Project Workflow**
 
 1. Data Collection
 
@@ -74,7 +70,7 @@ Using charts and graphs to communicate findings and highlight important patterns
 
 Interpreting the analysis and identifying useful insights for content creators and digital marketing professionals.
 
-📈 Key Findings
+**📈 Key Findings**
 
 This section will be updated with the actual findings and visualizations from the completed notebook.
 
@@ -88,7 +84,7 @@ Characteristics associated with high-performing videos.
 
 Patterns in audience engagement.
 
-💡 Business Value
+**💡 Business Value**
 
 The analysis can help:
 
@@ -100,7 +96,7 @@ Businesses make more informed content strategy decisions.
 
 Researchers better understand YouTube trending patterns.
 
-📁 Repository Structure
+**📁 Repository Structure**
 
 youtube-video-trend-analysis/
 │
@@ -114,7 +110,7 @@ youtube-video-trend-analysis/
 └── visuals/
     └── analysis_charts/
 
-🚀 How to Run the Project
+**🚀 How to Run the Project**
 
 Clone this repository:
 
@@ -134,7 +130,7 @@ jupyter notebook
 
 Open the analysis notebook and execute the cells.
 
-📊 Project Deliverables
+**📊 Project Deliverables**
 
 Data exploration and analysis.
 
@@ -143,7 +139,5 @@ Data visualizations.
 Key insights and findings.
 
 Business-oriented recommendations.
-
-👩‍💻 Project Context
 
 This repository documents a client-assigned data analytics project, covering the analytical workflow from data exploration and preprocessing to visualization and insight generation.
