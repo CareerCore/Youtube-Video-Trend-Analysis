@@ -1,143 +1,217 @@
-# Youtube-Video-Trend-Analysis
+# What Makes a YouTube Video Trend? A Data Story for Creators
 
-**Project Overview**
+## Project Overview
 
-This project was undertaken as a client-assigned data analytics project to investigate the factors that contribute to YouTube videos becoming trending.
+This project explores daily YouTube trending-video records to understand which categories and regions appear most often, how views and engagement rates differ, how long videos tend to be published before appearing on the trending list, and whether pre-performance metadata can help benchmark high engagement.
 
-The client wanted to understand what makes certain videos more popular than others and which factors, such as views, likes, comments, video categories, and other video characteristics, may influence trending performance.
+The analysis is designed as a creator-friendly data story. It identifies patterns in the selected trending-video sample; it does **not** claim that any single title, publishing time, or metadata formula guarantees virality.
 
-Using data analysis and visualization techniques, this project explores YouTube trending video patterns and extracts meaningful insights that can help content creators and digital marketers make more informed decisions.
+## Client Brief
 
-**Project Objectives**
+The project was framed around a practical content-strategy question: **What characteristics are associated with videos appearing on YouTube's trending list, and what can creators learn from those patterns?**
 
-The main objectives of this project are:
+The analysis addresses the following questions:
 
-Identify factors associated with YouTube video popularity and trending performance.
+- Which video categories appear most frequently in the selected regional trending records?
+- How do views and engagement rates differ between the United States and India samples?
+- How do views, likes, and comments relate to one another?
+- What publishing-time and title-length patterns appear in the records?
+- Can metadata available before performance is observed provide a useful benchmark for identifying records with above-median like rates?
 
-Analyze relationships between views, likes, dislikes, and comment counts.
+## Dataset
 
-Explore the performance of different video categories.
+The notebook uses the **Trending YouTube Video Statistics** dataset from Kaggle:
 
-Investigate patterns and characteristics shared by trending videos.
+- Dataset: [Trending YouTube Video Statistics](https://www.kaggle.com/datasets/datasnaek/youtube-new)
+- Collection provenance: [Trending YouTube Scraper](https://github.com/DataSnaek/Trending-YouTube-Scraper)
+- Regional files used: `USvideos.csv` and `INvideos.csv`
 
-Present actionable insights through data visualizations.
+The notebook combines the two regional files and adds a `region` column to distinguish them.
 
-**🛠️ Tools & Technologies**
+| Region | Records | Unique videos |
+|---|---:|---:|
+| India (IN) | 37,352 | 16,307 |
+| United States (US) | 40,949 | 6,351 |
+| **Combined** | **78,301** | **22,427** |
 
-The project uses the following technologies (to be verified against the original notebook):
+The dataset contains repeated daily observations for videos that remain on the trending list. The notebook reports **4,311 duplicate rows** in the combined data. Therefore, record counts should not be interpreted as counts of distinct videos.
 
-Python – Data analysis and programming.
+## Tools & Technologies
 
-Jupyter Notebook / Kaggle – Development environment.
+- **Python** – Analysis and data processing
+- **Pandas** – Data loading, cleaning, transformation, and aggregation
+- **NumPy** – Numerical operations
+- **Matplotlib** – Charts and plots
+- **Seaborn** – Statistical visualizations
+- **Scikit-learn** – Preprocessing, logistic regression, and model evaluation
+- **Kaggle / Jupyter Notebook** – Notebook execution environment
 
-Pandas – Data manipulation and analysis.
+## Project Workflow
 
-NumPy – Numerical operations.
+### 1. Data loading
 
-Matplotlib – Data visualization.
+The notebook searches the Kaggle input directory for `USvideos.csv` and `INvideos.csv`, reads the CSV files using `latin1` encoding, adds a regional identifier, and combines the available data.
 
-Seaborn – Statistical visualization.
+### 2. Data validation and feature engineering
 
-**📂 Project Workflow**
+The notebook checks the expected dataset schema, parses trending and publishing dates, and creates additional variables, including:
 
-1. Data Collection
+- `days_to_trend` – Approximate days between publication and the recorded trending date
+- `title_chars` and `title_words` – Title length measures
+- `tag_count` – Number of tags
+- `publish_hour` – Publishing hour in UTC
+- `like_rate` – Likes divided by views
+- `comment_rate` – Comments divided by views
 
-Obtaining the YouTube trending video dataset and understanding the available variables.
+The notebook also checks duplicate rows and summarizes key numerical variables.
 
-2. Data Cleaning & Preprocessing
+### 3. Regional and category analysis
 
-Inspecting missing values and duplicate records.
+The analysis compares record counts, unique videos, median views, and median like rates for India and the United States. It also identifies frequently appearing category IDs in each region.
 
-Checking data types and inconsistencies.
+Category IDs are retained rather than assigned category names because category mappings can vary by region.
 
-Preparing data for further analysis.
+### 4. Engagement analysis
 
-3. Exploratory Data Analysis (EDA)
+The notebook examines the relationship between views and likes and compares like-rate distributions across regions. It also calculates median and mean like rates for each regional sample.
 
-Analyzing video views, likes, dislikes, and comments.
+### 5. Publishing time and title patterns
 
-Exploring trending video categories.
+The analysis explores trending records by UTC publishing hour, the approximate time between publication and trending-list appearance, and title-length statistics by region.
 
-Identifying patterns and relationships between variables.
+These are descriptive associations, not evidence that changing a publishing hour or title length will cause a video to trend.
 
-Examining engagement trends.
+### 6. High-engagement benchmark model
 
-4. Data Visualization
+A logistic regression pipeline benchmarks whether a record's like rate is at or above the **training-set median**.
 
-Using charts and graphs to communicate findings and highlight important patterns in YouTube trending videos.
+The model uses metadata intended to be available before performance is observed:
 
-5. Insights & Recommendations
+- Region
+- Category ID
+- Publishing hour
+- Title character count
+- Title word count
+- Tag count
+- Whether comments are disabled
 
-Interpreting the analysis and identifying useful insights for content creators and digital marketing professionals.
+Performance variables such as views, likes, dislikes, comment count, and target-derived rates are excluded from the model features to reduce target leakage. The notebook uses a train/test split, preprocessing pipelines, one-hot encoding, imputation, and feature scaling.
 
-**📈 Key Findings**
+## Key Findings
 
-This section will be updated with the actual findings and visualizations from the completed notebook.
+### Regional differences
 
-Potential areas of investigation include:
+| Metric | India (IN) | United States (US) |
+|---|---:|---:|
+| Trending records | 37,352 | 40,949 |
+| Unique videos | 16,307 | 6,351 |
+| Median views | 304,586 | 681,861 |
+| Median like rate | 0.0095 (0.95%) | 0.0283 (2.83%) |
+| Mean like rate | 0.0220 (2.20%) | 0.0344 (3.44%) |
+| Median title length | 83 characters | 47 characters |
 
-Engagement metrics and their relationship with video popularity.
+In this dataset sample, the United States records have higher median views and like rates, while the India records contain more unique videos. The median title length also differs between the two regional samples.
 
-Categories that appear frequently in trending videos.
+### Frequently appearing category IDs
 
-Characteristics associated with high-performing videos.
+The most frequent category IDs differ in volume by region:
 
-Patterns in audience engagement.
+- **India:** category ID `24` has 16,712 records, followed by category ID `25` with 5,241.
+- **United States:** category ID `24` has 9,964 records, followed by category ID `10` with 6,472.
 
-**💡 Business Value**
+These are category IDs, not category names.
 
-The analysis can help:
+### Engagement and model benchmark
 
-Content creators understand engagement patterns.
+The training-set median like-rate cutoff is **0.02011 (about 2.01%)**.
 
-Digital marketers identify popular content categories.
+On the held-out test set, the logistic regression benchmark achieved:
 
-Businesses make more informed content strategy decisions.
+| Evaluation metric | Result |
+|---|---:|
+| ROC AUC | 0.830 |
+| Balanced accuracy | 0.757 |
+| Test accuracy | approximately 0.76 |
 
-Researchers better understand YouTube trending patterns.
+The model's test-set precision and recall were:
 
-**📁 Repository Structure**
+| Class | Precision | Recall | F1-score |
+|---|---:|---:|---:|
+| Below median like rate | 0.77 | 0.73 | 0.75 |
+| At/above median like rate | 0.75 | 0.78 | 0.76 |
 
+This indicates that the selected metadata contains useful signal for distinguishing above- versus below-median like-rate records in this dataset. It is a benchmark model, not a replica of YouTube's recommendation or trending systems, and it does not establish causation.
+
+## Creator Takeaways
+
+- Compare engagement rates as well as raw view counts; raw counts are strongly influenced by audience size and channel reach.
+- Examine category and regional patterns in the context of the intended audience.
+- Treat title length and publishing-time patterns as observations to investigate, not guaranteed growth tactics.
+- Use pre-performance metadata as a benchmarking aid, not as a promise that a video will trend.
+
+## Limitations
+
+- The records come from 2017–2018 collection windows and selected regions; they do not represent all YouTube uploads or current platform behavior.
+- The dataset contains repeated daily observations of videos that remained on the trending list.
+- Trending-list data are already a selected sample, not a random sample of all videos.
+- The `days_to_trend` measure is approximate because the daily trending date is not an exact recommendation timestamp.
+- Engagement rates can be affected by audience mix, video format, channel size, and calls to action.
+- The analysis is descriptive and non-causal. No title length, category, tag count, or publishing hour is shown to cause virality.
+
+## Repository Structure
+
+A suggested repository layout is:
+
+```text
 youtube-video-trend-analysis/
-│
 ├── README.md
 ├── notebooks/
-│   └── youtube_trend_analysis.ipynb
-│
-├── data/
-│   └── dataset.csv
-│
-└── visuals/
-    └── analysis_charts/
+│   └── what-makes-a-youtube-video-trend.ipynb
+└── data/
+    └── README.md
+```
 
-**🚀 How to Run the Project**
+Add the dataset files to `data/` only if you have permission to redistribute them and they are within GitHub's file-size limits. Otherwise, download the dataset from Kaggle using the link above. You can also keep the notebook at the repository root if you prefer a simpler structure.
 
-Clone this repository:
+## How to Run
 
-git clone YOUR_GITHUB_REPOSITORY_URL
+1. Clone the repository:
 
-Navigate to the project directory:
+   ```bash
+   git clone YOUR_GITHUB_REPOSITORY_URL
+   cd youtube-video-trend-analysis
+   ```
 
-cd youtube-video-trend-analysis
+2. Install the Python dependencies:
 
-Install the required dependencies:
+   ```bash
+   pip install numpy pandas matplotlib seaborn scikit-learn jupyter
+   ```
 
-pip install pandas numpy matplotlib seaborn jupyter
+3. Download the dataset from [Kaggle](https://www.kaggle.com/datasets/datasnaek/youtube-new).
 
-Open the Jupyter Notebook:
+4. Attach the dataset to your Kaggle notebook, or update the notebook's file-discovery path for your local environment. The notebook expects `USvideos.csv` and `INvideos.csv`.
 
-jupyter notebook
+5. Launch Jupyter:
 
-Open the analysis notebook and execute the cells.
+   ```bash
+   jupyter notebook
+   ```
 
-**📊 Project Deliverables**
+6. Open and run the notebook.
 
-Data exploration and analysis.
+## Project Deliverables
 
-Data visualizations.
+- Combined regional trending-video analysis
+- Data validation and feature engineering
+- Regional, category, engagement, timing, and title-pattern exploration
+- Data visualizations
+- Logistic regression high-engagement benchmark
+- Creator-focused takeaways and documented limitations
 
-Key insights and findings.
+## Project Context
 
-Business-oriented recommendations.
+This repository presents a client-style data analytics project, documenting the workflow from dataset preparation and exploratory analysis through model benchmarking and interpretation.
 
-This repository documents a client-assigned data analytics project, covering the analytical workflow from data exploration and preprocessing to visualization and insight generation.
+**Original Kaggle notebook:**  
+[What Makes a YouTube Video Trend?](https://www.kaggle.com/code/aviral342/what-makes-a-youtube-video-trend/notebook)
