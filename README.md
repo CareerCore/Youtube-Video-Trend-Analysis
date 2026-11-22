@@ -33,7 +33,6 @@ Both files are stored in the repository's `data/` directory. The notebook combin
 | United States (US) | 40,949 | 6,351 |
 | **Combined** | **78,301** | **22,427** |
 
-The dataset contains repeated daily observations for videos that remain on the trending list. The notebook reports **4,311 duplicate rows** in the combined data. Therefore, record counts should not be interpreted as counts of distinct videos.
 
 ## Tools & Technologies
 
